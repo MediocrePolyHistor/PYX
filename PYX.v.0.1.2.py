@@ -1,17 +1,28 @@
 from tkinter import *
 from random import choice
-from NGA_MN import MN_darabszam
 
 """
 https://youtu.be/rQ9XMB-0hu0?t=14m33s
 """
+
+def MN_darabszam(jatekszint=0):
+    global mezo_darab
+    if jatekszint < 1:
+        mezo_darab = choice(range(1, 5))
+    elif jatekszint == 1:
+        mezo_darab = choice(range(4, 11))
+    elif 2 <= jatekszint:
+        mezo_darab = choice(range(10, 41))
+    else:
+        print("Nothing happens.")
+    return mezo_darab
 
 window_size_factor = 10
 window_width_ratio = 30
 window_height_ratio = 50
 window_actual_width = window_width_ratio * window_size_factor
 window_actual_height = window_height_ratio * window_size_factor
-calculated_target = 40 #choice(range(1, 10000))
+calculated_target = choice(range(1, 10000))
 darab = 0
 
 class PyckApp():
@@ -34,7 +45,7 @@ class PyckApp():
         self.target = Label(text="The target is: "+str(calculated_target))
         self.target.place(relx=0.5, rely=0.1, anchor=CENTER)
         
-        self.darab = 20 #MN_darabszam(5)
+        self.darab = 33 #MN_darabszam(5)
         
         self.gombsorszam = Label(text="The number of buttons is: "+str(self.darab)+".")
         self.gombsorszam.place(relx=0.5, rely=0.15, anchor=CENTER)
@@ -67,16 +78,20 @@ class PyckApp():
             button.config(height=1, width=2)
             
             if sorszam == 1:
-                column = 0
-                row = 0
+                column = 1
+                row = 1
                 sorszam += 1
             elif 1 < sorszam <= 12:
-                column = sorszam - 1
-                row = 0
+                column = sorszam
+                row = 1
+                sorszam += 1
+            elif sorszam % 12 == 0:
+                column = 12
+                row = sorszam // 12
                 sorszam += 1
             elif 12 < sorszam:
-                column = sorszam % 13
-                row = sorszam // 13
+                column = (sorszam % 12) 
+                row = (sorszam // 12) + 1
                 sorszam += 1
             
             button.grid(row=row, column=column)
